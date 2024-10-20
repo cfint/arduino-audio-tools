@@ -200,6 +200,7 @@ inline long map(long x, long in_min, long in_max, long out_min, long out_max) {
 
 } // namespace
 
+#if defined(IS_MIN_DESKTOP)
 #if defined(ESP32) 
 #include "driver/gpio.h"
 /// e.g. for AudioActions
@@ -230,6 +231,7 @@ void pinMode(int pin, int mode) {
 	}
 }
 
+#endif
 #endif
 
 //using namespace audio_tools;
