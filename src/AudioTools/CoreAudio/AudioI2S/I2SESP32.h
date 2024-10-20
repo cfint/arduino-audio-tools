@@ -185,6 +185,11 @@ class I2SDriverESP32 {
     this->i2s_num = (i2s_port_t)cfg.port_no;
     setChannels(cfg.channels);
 
+#if ESP_IDF_VERSION_MAJOR >= 4
+    mclk_multiple = cfg.bits_per_sample == 24 ? I2S_MCLK_MULTIPLE_384 :
+                                                I2S_MCLK_MULTIPLE_DEFAULT;
+#endif
+
     i2s_config_t i2s_config_new = {
         .mode = toMode(cfg),
         .sample_rate = (eps32_i2s_sample_rate_type)cfg.sample_rate,
@@ -198,7 +203,7 @@ class I2SDriverESP32 {
         .tx_desc_auto_clear = cfg.auto_clear,
 #if ESP_IDF_VERSION_MAJOR >= 4
         .fixed_mclk = (int)(cfg.fixed_mclk > 0 ? cfg.fixed_mclk : 0),
-        .mclk_multiple = I2S_MCLK_MULTIPLE_DEFAULT,
+        .mclk_multiple = mclk_multiple, /*I2S_MCLK_MULTIPLE_DEFAULT,*/
         .bits_per_chan = I2S_BITS_PER_CHAN_DEFAULT,
 #endif
     };

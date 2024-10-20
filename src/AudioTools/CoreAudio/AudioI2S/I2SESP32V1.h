@@ -37,7 +37,10 @@ class I2SDriverESP32V1 {
       if (info.equalsExSampleRate(cfg)) {
         cfg.sample_rate = info.sample_rate;
         LOGI("i2s_set_sample_rates: %d", (int)info.sample_rate);
-        return getDriver(cfg).changeSampleRate(cfg, rx_chan, tx_chan);
+        bool res;
+        res = getDriver(cfg).changeBitsPerSample(cfg, rx_chan, tx_chan);
+        res |= getDriver(cfg).changeSampleRate(cfg, rx_chan, tx_chan);
+        return res;
       }
     } else {
       LOGE("not started");
@@ -149,6 +152,12 @@ class I2SDriverESP32V1 {
     virtual bool changeSampleRate(I2SConfigESP32V1 &cfg,
                                   i2s_chan_handle_t &tx_chan,
                                   i2s_chan_handle_t &rx_chan) {
+      return false;
+    }
+
+    virtual bool changeBitsPerSample(I2SConfigESP32V1 &cfg,
+                                     i2s_chan_handle_t &tx_chan,
+                                     i2s_chan_handle_t &rx_chan) {
       return false;
     }
 
@@ -277,6 +286,23 @@ class I2SDriverESP32V1 {
         }
       }
       return clk_cfg;
+    }
+
+    bool changeBitsPerSample(I2SConfigESP32V1 &cfg, i2s_chan_handle_t &tx_chan,
+                             i2s_chan_handle_t &rx_chan) override {
+      bool rc = false;
+      auto slot_cfg = getSlotConfig(cfg);
+      if (tx_chan != nullptr) {
+        i2s_channel_disable(tx_chan);
+        rc = i2s_channel_reconfig_std_slot(tx_chan, &slot_cfg) == ESP_OK;
+        i2s_channel_enable(tx_chan);
+      }
+      if (rx_chan != nullptr) {
+        i2s_channel_disable(rx_chan);
+        rc = i2s_channel_reconfig_std_slot(rx_chan, &slot_cfg) == ESP_OK;
+        i2s_channel_enable(rx_chan);
+      }
+      return rc;
     }
 
     bool changeSampleRate(I2SConfigESP32V1 &cfg, i2s_chan_handle_t &tx_chan,
