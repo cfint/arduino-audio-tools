@@ -34,12 +34,10 @@ class I2SDriverESP32V1 {
     // nothing to do
     if (is_started) {
       if (info.equals(cfg)) return true;
-      if (info.equalsExSampleRate(cfg)) {
-        cfg.sample_rate = info.sample_rate;
-        LOGI("i2s_set_sample_rates: %d", (int)info.sample_rate);
-        return getDriver(cfg).changeBitsPerSample(cfg, rx_chan, tx_chan) &&
-                getDriver(cfg).changeSampleRate(cfg, rx_chan, tx_chan);
-      }
+      cfg.sample_rate = info.sample_rate;
+      LOGI("i2s_set_sample_rates: %d", (int)info.sample_rate);
+      return getDriver(cfg).changeBitsPerSample(cfg, rx_chan, tx_chan) &&
+              getDriver(cfg).changeSampleRate(cfg, rx_chan, tx_chan);
     } else {
       LOGE("not started");
     }
