@@ -246,14 +246,14 @@ protected:
 #else
 
 // Switch off logging
-#define LOGD(...) 
-#define LOGI(...) 
-#define LOGW(...) 
-#define LOGE(...) 
-#define TRACED()
-#define TRACEI()
-#define TRACEW()
-#define TRACEE()
+#define LOGD(...) {}
+#define LOGI(...) {}
+#define LOGW(...) {}
+#define LOGE(...) {}
+#define TRACED() {}
+#define TRACEI() {}
+#define TRACEW() {}
+#define TRACEE() {}
 
 #endif
 
