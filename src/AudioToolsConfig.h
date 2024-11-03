@@ -88,7 +88,7 @@ typedef WiFiClient WiFiClientSecure;
  */
  
 #ifndef USE_AUDIO_LOGGING 
-#  define USE_AUDIO_LOGGING true
+#  define USE_AUDIO_LOGGING false
 #endif
 
 #ifndef LOG_LEVEL 
