@@ -278,7 +278,7 @@ typedef WiFiClient WiFiClientSecure;
 #  define USE_INT24_FROM_INT
 #endif
 
-// #define USE_ANALOG
+#define USE_ANALOG
 #define USE_I2S
 #define USE_PDM_RX
 
