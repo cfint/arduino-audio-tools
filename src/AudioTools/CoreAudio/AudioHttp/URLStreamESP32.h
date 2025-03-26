@@ -404,7 +404,7 @@ class URLStreamESP32 : public AbstractURLStream {
       case HTTP_EVENT_DISCONNECTED:
         LOGI("HTTP_EVENT_DISCONNECTED");
         break;
-#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 3, 7)
+#if ESP_IDF_VERSION > ESP_IDF_VERSION_VAL(5, 0, 0)
       case HTTP_EVENT_REDIRECT:
         LOGI("HTTP_EVENT_REDIRECT");
         break;
